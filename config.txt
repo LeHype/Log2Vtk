@@ -1,0 +1,11 @@
+----------input and output path---------------
+log_path = '/home/heib/Documents/Sample/'
+log_name = 'ParaviewTest'
+vtu_path = '/home/heib/Documents/Sample/Vtu'
+----------Parameters---------------------------
+Dimension         = '3D'
+Deformation       = 'Yes'    
+---Array wih unique one character identifiers--
+Variables         = 'U,S,T'
+---The number of components per Node for example--
+ComponentsPerNode = '3,1,1' 
