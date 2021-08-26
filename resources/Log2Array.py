@@ -32,7 +32,7 @@ def LogFileReader(path,filename,ElementConnectivities,NumberNodes,UniqueId,Compo
     
 
     for i in range(len(UniqueId)):
-        UniqueVariables.append(Variable(UniqueId[i], NumberNodes, Components[i], len(TimeIncrements)))
+        UniqueVariables.append(Variable(UniqueId[i], NumberNodes, Components[i], TimeIncrements))
     pass
     i =0
     CurrentTime=-1
@@ -44,19 +44,24 @@ def LogFileReader(path,filename,ElementConnectivities,NumberNodes,UniqueId,Compo
     while(i<len(Logfile)):
         if len(Logfile[i])!= 0:
             if Logfile[i][0] == ' Time =':
+                CurrentData=[]
                 CurrentTime = float(Logfile[i][1])
                 CurrentTimeIndex= TimeIncrements.index(CurrentTime)
                 CurrentElementIndex = int(Logfile[i][3])-1
-                CurrentNodes= ElementConnectivities[CurrentElementIndex]
+                CurrentNodes= [x-1 for x in ElementConnectivities[CurrentElementIndex]]
                 CurrentUniqueIdIndex=UniqueId.index(Logfile[i+1][1])
                 CurrentNumberComponents=UniqueVariables[CurrentUniqueIdIndex].NumberComponents
-                j=1
+                j=2
                 while(isFirstEntryFloatTry(Logfile[i+j])):
-                    CurrentData.append(float(Logfile[i+j]))
+                    CurrentData.append(float(Logfile[i+j][0]))
                     j=j+1
+                for l in range(len(CurrentNodes)):
 
-
+                    for k in range(CurrentNumberComponents):
+                        UniqueVariables[CurrentUniqueIdIndex].Data[CurrentTimeIndex][CurrentNodes[l]][k]=CurrentData[l*CurrentNumberComponents+k]
+                pass
         i=i+1
+    return UniqueVariables
     
     
 

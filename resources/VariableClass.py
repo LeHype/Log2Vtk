@@ -6,5 +6,5 @@ class Variable():
             self.NumberComponents= NumberComponents
             self.TimeIncrements = TimeIncrements
 
-            self.Data= np.zeros((self.TimeIncrements,self.NumberNodes,self.NumberComponents))
+            self.Data= np.zeros((len(self.TimeIncrements),self.NumberNodes,self.NumberComponents))
             

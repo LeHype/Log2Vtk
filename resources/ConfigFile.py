@@ -32,4 +32,4 @@ def ReadConfig(filename):
     Components = input[13].split(',')
     for i in range(len(Components)):
             Components[i] = int(Components[i])
-    return LogPath,SimName,VtuPath,UniqueId,Components
+    return LogPath,SimName,VtuPath,UniqueId,Components,Deformation

@@ -7,13 +7,21 @@ from resources.ConfigFile import *
 from resources.InpFile2Array import *
 from resources.VariableClass import *
 from resources.Log2Array import *
+from resources.WriteVtk import *
+def main():
 
-path,filename,vtupath,UniqueId,Components = ReadConfig('config.txt')
+	path,filename,vtupath,UniqueId,Components,Deformation = ReadConfig('config.txt')
 
-NumberNodes,NodalCoordinates,NumberElements,ElementConnectivities = NodesAndElementsFromInput(path, filename)
+	NumberNodes,NodalCoordinates,NumberElements,ElementConnectivities = NodesAndElementsFromInput(path, filename)
 
-LogFileReader(path, filename, ElementConnectivities,NumberNodes,UniqueId,Components)
+	UniqueVariables = LogFileReader(path, filename, ElementConnectivities,NumberNodes,UniqueId,Components)
 
+	WriteVtk(vtupath, filename, UniqueVariables,UniqueId, NumberElements, ElementConnectivities, NumberNodes, NodalCoordinates,Deformation)
+
+	pass
+if __name__=='__main__' :
+	main()
+	sys.exit(2)
 pass
 ## Read input File 
 for u in range(len(InputFile)):
