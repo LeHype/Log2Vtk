@@ -1,4 +1,5 @@
 import pygame
+from resources.ObjectClasses import ClickableInstance, TextField, Line,New_Line
 
 pygame.init()
 screen = pygame.display.set_mode((700, 400))
@@ -18,71 +19,27 @@ def button(screen, position, text):
         pass
     return screen.blit(text_render, (x, y))
 
-def InputBox(screen,pos, text):
-
-    font = pygame.font.SysFont("Arial", 50)
-    text_render = font.render(text, 1, (255, 0, 0))
-    color = pygame.Color('white')
-    input_box = pygame.Rect(pos,(100,100))
-    Box = pygame.draw.rect(screen, color, input_box, 0)
-    
-    screen.blit(text_render, (input_box.x+5, input_box.y+5))
-    return input_box
 def RemoveEntry(ClickableInstances,RemoveID):
     ClickableInstances.remove(RemoveID)
 def AddEntry(ClickableInstances, yPos):
     print(yPos)
     yPos=yPos+60
-    ClickableInstances.append(InputBox(screen, (100,yPos),70,50, '*',1,True))
-    ClickableInstances.append(InputBox(screen, (180,yPos),70,50, '*',2,True))
-class InputBox():
-    def __init__(self,screen,pos,width,hight,text,MaxChar,edible):
-        self.screen= screen
-        self.BorderThickness=4
-        self.pos = pos
-        self.hight = hight
-        self.width= width
-        self.BorderPos = [x-self.BorderThickness for x in pos]
-        self.BorderWidth = self.width+self.BorderThickness*2
-        self.BorderHight = self.hight+self.BorderThickness*2
-        self.text = text
-        self.font = pygame.font.SysFont("Arial", 50)
-        self.text_render = self.font.render(text, 1, (0, 0, 255))
-        self.FieldColor = pygame.Color('white')
-        self.BorderColor = pygame.Color('black')
-        self.MaxChar=MaxChar
-        self.edible=edible
-        self.active = False
-        self.input_box = pygame.Rect(self.pos,(self.width,self.hight))
-        self.border =  pygame.Rect(self.BorderPos,(self.BorderWidth,self.BorderHight))
-        pygame.draw.rect(self.screen, self.BorderColor, self.border, 0)
-        pygame.draw.rect(self.screen, self.FieldColor, self.input_box, 0)
-    
-        screen.blit(self.text_render, (self.input_box.x+5, self.input_box.y+5))
-    def update(self):
-
-        if self.active ==True:
-            self.BorderColor= pygame.Color('red')
-        else:
-            self.BorderColor= pygame.Color('black')
-        self.text_render = self.font.render(self.text, 1, (0, 0, 255))
-        pygame.draw.rect(self.screen, self.BorderColor, self.border, 0)
-        pygame.draw.rect(self.screen, self.FieldColor, self.input_box, 0)
-    
-        screen.blit(self.text_render, (self.input_box.x+5, self.input_box.y+5))
-
+    ClickableInstances.append(ClickableInstance(screen, (100,yPos),70,50, '*',1,True))
+    ClickableInstances.append(ClickableInstance(screen, (180,yPos),70,50, '*',2,True))
 def start():
     print("Ok, let's go")
 
 def menu(VariableArray):
     """ This is the menu that waits you to click the s key to start """
+    Lines=[]
+    Lines.append(New_Line((0,0),screen,300,50,Lines,VariableArray[0]))
     ClickableInstances=[]
-    ClickableInstances.append(InputBox(screen, (300,300), 240, 50, 'Add Entry',0,False))
-    ClickableInstances.append(InputBox(screen, (550,300), 120, 50, 'Start',0,False))
+    ClickableInstances.append(ClickableInstance(screen, (300,300), 240, 50, 'Add Entry'))
+    ClickableInstances.append(ClickableInstance(screen, (550,300), 120, 50, 'Start'))
     for i in range(len(VariableArray)):
 
-        ClickableInstances.append(InputBox(screen, (100,50+(i*60)),70,50, str(VariableArray[i][0]),1,True))
-        ClickableInstances.append(InputBox(screen, (180,50+(i*60)),70,50, str(VariableArray[i][1]),2,True))
+        ClickableInstances.append(TextField(screen, (100,50+(i*60)),70,50, str(VariableArray[i][0])))
+        ClickableInstances.append(ClickableInstance(screen, (180,50+(i*60)),70,50, str(VariableArray[i][1])))
     done= False
 
     ActiveObjectId=None

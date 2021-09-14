@@ -6,6 +6,6 @@ vtu_path = '/home/heib/Documents/Sample/Vtu'
 Dimension         = '3D'
 Deformation       = 'Yes'    
 ---Array wih unique one character identifiers--
-Variables         = 'U,S,T'
+Variables         = 'U,S,T,F'
 ---The number of components per Node for example--
-ComponentsPerNode = '3,1,1' 
+ComponentsPerNode = '3,1,1,3' 
