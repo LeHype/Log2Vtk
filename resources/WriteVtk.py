@@ -2,7 +2,7 @@ import csv
 import os 
 import glob
 import numpy as np
-def WriteVtk(path, filename, UniqueVariables,UniqueId, NumberElements, ElementConnectivities, NumberNodes, NodalCoordinates,Deformation ):
+def WriteVtk(path, filename, UniqueVariables,UniqueId, NumberElements, ElementConnectivities, NumberNodes, NodalCoordinates,Deformation,UniqueElementId ):
     VtuFilesinFolder = glob.glob(path+'/*vtu')
     for File in VtuFilesinFolder:
         os.remove(File)
@@ -45,15 +45,16 @@ def WriteVtk(path, filename, UniqueVariables,UniqueId, NumberElements, ElementCo
         VTUPRINT.append(['<Cells>'])
         VTUPRINT.append(['<DataArray', 'type="Int32"', 'Name="connectivity"', 'format="ascii">'])
         for i in range(NumberElements):
-            VTUPRINT.append([str(int(ElementConnectivities[i][0])),str(int(ElementConnectivities[i][1])),str(int(ElementConnectivities[i][2])),str(int(ElementConnectivities[i][3]))])
+            
+            VTUPRINT.append(ElementConnectivities[i])
         VTUPRINT.append(['</DataArray>'])
         VTUPRINT.append(['<DataArray', 'type="Int32"', 'Name="offsets"', 'format="ascii">'])
         for i in range(NumberElements):
-            VTUPRINT.append([str(4*(i+1))])
+            VTUPRINT.append([str(len(ElementConnectivities[0])*(i+1))])
         VTUPRINT.append(['</DataArray>'])
         VTUPRINT.append(['<DataArray', 'type="UInt8"', 'Name="types"', 'format="ascii">'])
         for i in range(NumberElements):
-            VTUPRINT.append([str(10)])
+            VTUPRINT.append([str(UniqueElementId)])
         VTUPRINT.append(['</DataArray>'])
         VTUPRINT.append(['</Cells>'])
         VTUPRINT.append(['</Piece>'])

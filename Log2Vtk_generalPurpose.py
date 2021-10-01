@@ -14,12 +14,12 @@ def main():
 	path,filename,vtupath,UniqueId,Components,Deformation,ElementGeom = ReadConfig('config.txt')
 
 	UniqueGeometryId = identifyElementType(ElementGeom)
-	print(UniqueGeometryId)
+
 	NumberNodes,NodalCoordinates,NumberElements,ElementConnectivities = NodesAndElementsFromInput(path, filename)
 
 	UniqueVariables = LogFileReader(path, filename, ElementConnectivities,NumberNodes,UniqueId,Components)
 
-	WriteVtk(vtupath, filename, UniqueVariables,UniqueId, NumberElements, ElementConnectivities, NumberNodes, NodalCoordinates,Deformation)
+	WriteVtk(vtupath, filename, UniqueVariables,UniqueId, NumberElements, ElementConnectivities, NumberNodes, NodalCoordinates,Deformation,UniqueGeometryId)
 
 	pass
 if __name__=='__main__' :
