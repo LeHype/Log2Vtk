@@ -9,3 +9,14 @@ Deformation       = 'Yes'
 Variables         = 'U,S,T,F'
 ---The number of components per Node for example--
 ComponentsPerNode = '3,1,1,3' 
+---ElementGeometry---------
+ElementGeometry='quad_Quad'
+---Full List of implemented geometries:
+'tet',
+'hex',
+'triangle',
+'quadratic',
+'tet_quad'  9 Node tetrahedron, 
+'hex_quad'  20 Node hexahedron,
+'tri_quad'  6 Node triangle,
+'quad_quad' 9 Node quadratic

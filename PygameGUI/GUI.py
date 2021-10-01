@@ -1,9 +1,9 @@
 import pygame
-from resources.ObjectClasses import ClickableInstance, TextField, Line,New_Line
-
+import os
+from resources.ObjectClasses import ClickableInstance, TextField, Line,New_Line,draw_Lines
+import csv
 pygame.init()
 screen = pygame.display.set_mode((700, 400))
-screen.fill('blue')
 
 def button(screen, position, text):
     font = pygame.font.SysFont("Arial", 50)
@@ -29,51 +29,91 @@ def AddEntry(ClickableInstances, yPos):
 def start():
     print("Ok, let's go")
 
+def SaveToConfig(VariableArray):
+    Lines=lsit(csv.reader.open(os.path.abspath('config.txt')))
+
+def draw_All(screen,VariableArray):
+    ClickableInstances=[]
+    Lines=[]
+    screen.fill('blue')
+    ClickableInstances.append(ClickableInstance(screen, (300,300), 240, 50, 'Add entry'))
+    ClickableInstances[-1].UniqueAction='AddEntry'
+    ClickableInstances.append(ClickableInstance(screen, (550,300), 120, 50, 'Save entries to config-file'))
+    ClickableInstances[-1].UniqueAction='Save'
+    Lines=draw_Lines(VariableArray,ClickableInstances,screen)
+
+    return ClickableInstances, Lines
+
+
 def menu(VariableArray):
     """ This is the menu that waits you to click the s key to start """
-    Lines=[]
-    Lines.append(New_Line((0,0),screen,300,50,Lines,VariableArray[0]))
-    ClickableInstances=[]
-    ClickableInstances.append(ClickableInstance(screen, (300,300), 240, 50, 'Add Entry'))
-    ClickableInstances.append(ClickableInstance(screen, (550,300), 120, 50, 'Start'))
-    for i in range(len(VariableArray)):
-
-        ClickableInstances.append(TextField(screen, (100,50+(i*60)),70,50, str(VariableArray[i][0])))
-        ClickableInstances.append(ClickableInstance(screen, (180,50+(i*60)),70,50, str(VariableArray[i][1])))
+    
+    screen.fill('blue')
+    ClickableInstances,Lines=draw_All(screen, VariableArray)
+    #for Data in VariableArray:
+    #    Lines.append(New_Line((0,0),screen,300,50,Lines,Data))
+    #    ClickableInstances.append(Lines[-1])
     done= False
 
-    ActiveObjectId=None
+    ActiveInstance=None
     while not done:
+        print(len(ClickableInstances))
+        #print(ActiveInstance)
         #Event Handling
         for event in pygame.event.get():
             
             if event.type == pygame.QUIT:
                 done = True
             if event.type == pygame.MOUSEBUTTONDOWN:
-        # If the user clicked on the input_box rect.
-                for i in range(len(ClickableInstances)):
-
-                    if ClickableInstances[i].input_box.collidepoint(event.pos):
-            # Toggle the active variable.
-                        ClickableInstances[i].active = not ClickableInstances[i].active
-                        ActiveObjectId = i
-                    else:
-                        ClickableInstances[i].active = False
-
-                    ClickableInstances[i].update()
-        # Change the current color of the input box.
-                #color = color_active if active else color_inactive
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    
-                    if ActiveObjectId==0:
-                        AddEntry(ClickableInstances,ClickableInstances[-1].pos[1])
-                elif event.key == pygame.K_BACKSPACE and ClickableInstances[ActiveObjectId].edible:
-                    ClickableInstances[ActiveObjectId].text = ClickableInstances[ActiveObjectId].text[:-1]
-                elif len(ClickableInstances[ActiveObjectId].text)< ClickableInstances[ActiveObjectId].MaxChar and ClickableInstances[ActiveObjectId].edible:
-                    ClickableInstances[ActiveObjectId].text += event.unicode
+                print('Click')
+                for x in ClickableInstances:
+                    x.checkCollision(event.pos)
                 
-                ClickableInstances[ActiveObjectId].update()
+                Temp=None
+                for x in ClickableInstances:
+                    if x.isActive() != None:
+                        Temp=x.isActive()
+                ActiveInstance=Temp
+                if ActiveInstance!=None:
+
+                    for x in range(len(Lines)):
+                        if Lines[x].Field[2].active:
+                            del VariableArray[x]
+
+                            #screen.fill('blue')
+                            ActiveInstance.active=False
+                            ActiveInstance.update()
+                            #ClickableInstances, Lines = draw_All(screen, VariableArray)
+                            ActiveInstance = None
+                            
+                    
+                ## Add Entry
+                    if ActiveInstance.UniqueAction=='AddEntry':
+                        print('Ugabuga')
+                        VariableArray.append(['',''])
+                        ActiveInstance.active=False
+                        ClickableInstances, Lines = draw_All(screen, VariableArray)
+                    
+                    if ActiveInstance.UniqueAction=='Save':
+                        SaveToConfig(VariableArray)
+                        
+                
+
+                
+            
+            if ActiveInstance != None:        
+            
+                if event.type == pygame.KEYDOWN:
+                        
+                    if ActiveInstance.edible==True:
+                        if event.key == pygame.K_BACKSPACE:
+                            ActiveInstance.text = ActiveInstance.text[:-1]
+                        elif len(ActiveInstance.text)< ActiveInstance.MaxChar:
+                            ActiveInstance.text += event.unicode
+                        if event.key == pygame.K_RETURN:
+                            print(ActiveInstance.text)
+                ActiveInstance.update()        
+                    #ClickableInstances[ActiveObjectId].update()
         pygame.display.update()
     pygame.quit()
 if __name__ == '__main__':

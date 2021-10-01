@@ -8,10 +8,13 @@ from resources.InpFile2Array import *
 from resources.VariableClass import *
 from resources.Log2Array import *
 from resources.WriteVtk import *
+from resources.ElementType import *
 def main():
 
-	path,filename,vtupath,UniqueId,Components,Deformation = ReadConfig('config.txt')
+	path,filename,vtupath,UniqueId,Components,Deformation,ElementGeom = ReadConfig('config.txt')
 
+	UniqueGeometryId = identifyElementType(ElementGeom)
+	print(UniqueGeometryId)
 	NumberNodes,NodalCoordinates,NumberElements,ElementConnectivities = NodesAndElementsFromInput(path, filename)
 
 	UniqueVariables = LogFileReader(path, filename, ElementConnectivities,NumberNodes,UniqueId,Components)

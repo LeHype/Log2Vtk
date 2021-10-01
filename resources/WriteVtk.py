@@ -36,7 +36,7 @@ def WriteVtk(path, filename, UniqueVariables,UniqueId, NumberElements, ElementCo
         VTUPRINT.append(['<PointData', 'Scalars="'+UniqueIdString+'">'])
         for Var in UniqueVariables:
 
-            VTUPRINT.append(['<DataArray', 'type="Float32"', 'Name="'+str(Var.UniqueId)+'"', 'NumberOfComponents="1"', 'format="ascii">'])
+            VTUPRINT.append(['<DataArray', 'type="Float32"', 'Name="'+str(Var.UniqueId)+'"', 'NumberOfComponents="'+str(Var.NumberComponents)+'"', 'format="ascii">'])
             for i in range(NumberNodes):
                 VTUPRINT.append(Var.Data[j][i])
             VTUPRINT.append(['</DataArray>'])
