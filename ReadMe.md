@@ -6,6 +6,6 @@
    - Stress = [ sx1,sy1,sz1,yxy1,yyz1,yzx1,mises1,sx1.. ect]
    - Right now the components will have no label and will be displayed as [1,2,3,4 ect.]
  2.  Run the suplied preprocessing Fortran Subroutine 
-   ![Alt text](/home/heib/Pictures/Pic1.jpg?raw=true "Title")
+   ![Alt text](/home/heib/Pictures/Pic1.png?raw=true "Title")
    This syntax is mandatory.! 
    \\Todo: make an option to label individual components 
