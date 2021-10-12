@@ -5,7 +5,7 @@ PATHRECHNEN='/home/rechnen/heib/UEL/TEST_2/'
 FILENAME='Dummy'
 func1() {
    echo "Waiting for abaqus job"
-   if sshpass -p "go3ein"  ssh rechnen@zuse.ltm.uni-saarland.de stat heib/UEL/TEST_2/$FILENAME.lck \> /dev/null 2\>\&1
+   if sshpass -p "******"  ssh rechnen@zuse.ltm.uni-saarland.de stat heib/UEL/TEST_2/$FILENAME.lck \> /dev/null 2\>\&1
             then
                     sleep 2
                     func1
